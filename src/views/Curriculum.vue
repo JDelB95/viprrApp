@@ -7,7 +7,7 @@
             :headers="headers"
             :items="this.$store.state.curriculum"
             sort-by="calories"
-            items-per-page="15"
+            :items-per-page="15"
             class="elevation-1"
           >
             <template v-slot:top>
@@ -95,12 +95,15 @@
 </template>
 <script>
 import { mapState } from "vuex";
+import axios from 'axios';
 export default {
+  name: "Curriculum",
   mounted() {
     this.$store.dispatch("getCurriculum");
   },
   data: () => ({
     dialog: false,
+    text: "",
     headers: [
       {
         text: "Course Title",
@@ -133,8 +136,8 @@ export default {
     editedIndex: -1,
     editedItem: {
       Course_Desc: "",
-      Course_Code: 0,
-      Major_Code: 0,
+      Course_Code: "",
+      Major_Code: "",
       Course_Seq: 0,
       Prereq_ID: 0
     },
@@ -143,7 +146,7 @@ export default {
       Course_Code: "CIS",
       Major_Code: "CIS",
       Course_Seq: 0,
-      Prereq_ID: ""
+      Prereq_ID: 0
     }
   }),
 
@@ -175,8 +178,20 @@ export default {
 
     deleteItem(item) {
       const index = this.$store.state.curriculum.indexOf(item);
-      confirm("Are you sure you want to delete this item?") &&
-        this.$store.state.curriculum.splice(index, 1);
+      console.log(item.Program_ID);
+      let descision = confirm("Are you sure you want to delete this item?")
+        if(descision){
+        axios.put("http://127.0.0.1:8000/api/destroy/"+item.Program_ID)
+        .then(res =>{
+          console.log(res.response)
+          this.text = "Record Deleted!"
+          this.$store.state.curriculum.splice(index, 1);
+        })
+        .catch(err =>{
+          console.log(err.response)
+          this.text = "Error Deleting Record"
+        })
+        }
     },
 
     close() {
@@ -191,10 +206,20 @@ export default {
       if (this.editedIndex > -1) {
         Object.assign(
           this.$store.state.curriculum[this.editedIndex],
-          this.editedItem
+          this.editedItem,
+          console.log(this.editedItem)
         );
+        axios.put("http://127.0.0.1:8000/api/updateCurriculum/"+this.editedItem.Program_ID, this.editedItem)
+        .then(res =>{
+          console.log(res.response)
+          this.text = "Record Updated!"
+        })
+        .catch(err =>{
+          console.log(err.response)
+          this.text = "Error Updating Record"
+        })
       } else {
-        this.desserts.push(this.editedItem);
+        this.$store.state.curriculum.push(this.editedItem);
       }
       this.close();
     }

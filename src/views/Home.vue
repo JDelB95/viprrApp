@@ -30,7 +30,7 @@
           >
         </router-link>
         <div class="pt-6 text-md-center font-weight-regular">
-        <a class="a" href="http://localhost:8081/#/progress"><span>View Degree Progress</span></a>
+        <a class="a" href="http://localhost:8080/#/progress"><span>View Degree Progress</span></a>
       </div>
       </div>
     </v-layout>

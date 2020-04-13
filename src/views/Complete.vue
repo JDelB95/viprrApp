@@ -37,16 +37,16 @@ export default {
   data: () => ({
     course: [
       {
-        courseNumber: "322",
-        title: "DB Application Development"
-      },
-      {
-        courseNumber: "352",
-        title: "Ethical Issues In Computing"
-      },
-      {
         courseNumber: "354",
-        title: "Web Systems Project Management"
+        title: "Systems Project Management"
+      },
+      {
+        courseNumber: "321",
+        title: "Database Management & Design"
+      },
+      {
+        courseNumber: "330",
+        title: "Web Programming I"
       }
     ]
   })

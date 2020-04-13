@@ -42,7 +42,7 @@
                 large
                 class="ma-6 font-weight-regular"
                 color="success"
-                @click="submitCourses"
+                @click="loop"
                 >Yes</v-btn
               >
             </router-link>
@@ -98,12 +98,6 @@ export default {
       CRN: 345627,
       Date_Registered: "2020-04-02"
     }
-
-    //    {
-    //    CWID:"C20957283",
-    //      CRN:456392,
-    //    Date_Registered:"2020-04-02"
-    //  }
   })
 };
 </script>

@@ -41,7 +41,7 @@
                         overlap
                       >
                         <v-btn color="orange" dark v-on="on"
-                          >View Your Added Courses</v-btn
+                          >View Courses You Selected</v-btn
                         >
                       </v-badge>
                     </template>
@@ -118,19 +118,19 @@ export default {
       sheet: false,
       show: false,
       checked: false,
-      selectedCourses: "",
+      selectedCourses: [],
       course: [
         {
-          courseNumber: "100",
-          title: "DB Application Development"
+          courseNumber: "354",
+          title: "Systems Project Management"
         },
         {
-          courseNumber: "490",
-          title: "Ethical Issues In Computing"
+          courseNumber: "321",
+          title: "Database Management & Design"
         },
         {
           courseNumber: "330",
-          title: "Web Systems Project Management"
+          title: "Web Programming I"
         }
       ],
       headers: [

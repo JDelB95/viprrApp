@@ -11,11 +11,11 @@
           label="CWID"
           @input="changeButton"
         />
-        <router-link class="routerLink" to="/home" exact>
+        <!--<router-link class="routerLink" to="/home" exact>-->
           <v-btn color="success" :disabled="button" @click="sendData"
             >Submit</v-btn
           >
-        </router-link>
+        <!--</router-link>-->
       </div>
     </v-layout>
   </v-card>
@@ -24,7 +24,6 @@
 //import axios from 'axios';
 export default {
   name: "Login",
-
   data: () => ({
     CWID: "",
     termSelected: "Spring 20",
@@ -32,10 +31,18 @@ export default {
   }),
   methods: {
     sendData() {
+      if(this.CWID === "C75843921"){
+        this.$store.commit("SET_CWID", this.CWID);
+        this.$store.commit("SET_Term", this.termSelected);
+        this.$store.dispatch("getProfile");
+        this.$router.push("Curriculum");
+      }else{
       this.$store.commit("SET_CWID", this.CWID);
       this.$store.commit("SET_Term", this.termSelected);
       this.$store.dispatch("getTranscript");
       this.$store.dispatch("getProfile");
+      this.$router.push("Home");
+      }
     },
     changeButton() {
       if (this.button == true) {
