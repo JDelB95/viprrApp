@@ -42,12 +42,16 @@
                 large
                 class="ma-6 font-weight-regular"
                 color="success"
-                @click="loop"
+                @click="final"
                 >Yes</v-btn
               >
             </router-link>
             <router-link class="routerLink" to="/recommendation" exact>
-              <v-btn large class="ma-6 font-weight-regular" color="error"
+              <v-btn
+                large
+                dark
+                class="ma-6 font-weight-regular"
+                color="rgb(242,43,12)"
                 >No</v-btn
               >
             </router-link>
@@ -65,13 +69,61 @@ export default {
   name: "Finalize",
   computed: {
     ...mapState(["coursesSelected"]),
-    ...mapState(["CWID"])
+    ...mapState(["CWID"]),
+    ...mapState(["finalSchedule"])
   },
+  mounted() {
+    this.$set(this, "setLater", this.coursesSelected);
+    this.$store.dispatch("getSchedule");
+  },
+  data: () => ({
+    date: "2020-05-01",
+    i: 0,
+    setLater: false,
+    majCode: "748",
+    currID: "CIS",
+    courseComp: "R"
+  }),
   methods: {
-    submitCourses() {
+    final() {
+      var k, j;
+      for (this.i = 0; this.i < this.coursesSelected.length; this.i++) {
+        this.coursesSelected[this.i].CWID = this.$store.state.CWID;
+        this.coursesSelected[this.i].Date_Registered = this.date;
+        this.coursesSelected[this.i].Maj_Code = this.majCode;
+        this.coursesSelected[this.i].Curriculum_ID = this.currID;
+        this.coursesSelected[this.i].Course_Comp = this.courseComp;
+        this.setLater[this.i].CWID = this.$store.state.CWID;
+        this.setLater[this.i].Date_Registered = this.date;
+        this.setLater[this.i].Maj_Code = this.majCode;
+        this.setLater[this.i].Curriculum_ID = this.currID;
+        this.setLater[this.i].Course_Comp = this.courseComp;
+      }
+      for (k = 0; k < this.finalSchedule.length; k++) {
+        for (j = 0; j < this.coursesSelected.length; j++) {
+          if (this.finalSchedule[k].CRN == this.coursesSelected[j].CRN) {
+            this.coursesSelected[j] = "";
+          } //end if
+        } //end j loop
+      } //end i
+      var finalChosen = this.coursesSelected.filter(function(x) {
+        return x != "";
+      });
+      console.log(finalChosen);
       axios
-        .post("http://127.0.0.1:8000/api/insert", {
-          body: this.courses
+        .post("http://127.0.0.1:8000/api/insertSchedule", {
+          body: finalChosen
+        })
+        .then(data => {
+          console.log(data.data);
+          console.log("success");
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      axios
+        .post("http://127.0.0.1:8000/api/insertTranscript", {
+          body: finalChosen
         })
         .then(data => {
           console.log(data.data);
@@ -81,24 +133,7 @@ export default {
           console.log(error);
         });
     },
-    loop() {
-      for (this.i = 0; this.i < this.coursesSelected.length; this.i++) {
-        this.coursesSelected[this.i].CWID = this.CWID;
-        this.coursesSelected[this.i].Date_Registered = this.date;
-      }
-      console.log(this.coursesSelected);
-      this.$store.dispatch("storeCourses", this.coursesSelected);
-    }
-  },
-  data: () => ({
-    date: "2020-04-02",
-    i: 0,
-    courses: {
-      CWID: "C38475920",
-      CRN: 345627,
-      Date_Registered: "2020-04-02"
-    }
-  })
+  }
 };
 </script>
 <style>

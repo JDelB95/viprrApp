@@ -3,6 +3,30 @@
     <v-layout>
       <v-flex>
         <v-card>
+          <template>
+            <v-toolbar flat color="white">
+              <v-toolbar-title>Degree Progress</v-toolbar-title>
+              <v-divider class="mx-4" inset vertical></v-divider>
+              <v-row></v-row>
+              <v-row
+                >A =
+                <p class="ml-1">
+                  <font color="orange">Attempting Class</font>
+                </p></v-row
+              >
+              <v-row
+                >C =
+                <p class="ml-1">
+                  <font color="green">Completed Class</font>
+                </p></v-row
+              >
+              <v-row
+                >R =
+                <p class="ml-1"><font color="blue">Registered</font></p></v-row
+              >
+              <v-spacer></v-spacer>
+            </v-toolbar>
+          </template>
           <v-data-table
             :headers="headers"
             :items="this.progress"
@@ -22,7 +46,7 @@ export default {
   mounted() {
     this.$store.dispatch("getProgress");
     this.$store.dispatch("getCurriculum");
-    this.merge();
+    //this.merge();
   },
   computed: {
     ...mapState(["curriculum"]),
@@ -34,7 +58,6 @@ export default {
       {
         text: "Curriculum",
         align: "start",
-        sortable: false,
         value: "Course_Code"
       },
       {

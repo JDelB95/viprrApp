@@ -14,11 +14,14 @@ export default new Vuex.Store({
     studentTranscript: [],
     studentProfile: [],
     curriculum: [],
+    studentCurriculum: [],
     progress: [],
     coursesSelected: [],
     Maj_Code: "",
     CWID: "",
-    term: ""
+    term: "",
+    finalRecommended: [],
+    finalSchedule: []
   },
   methods: {},
   mutations: {
@@ -34,6 +37,9 @@ export default new Vuex.Store({
     SET_Curriculum(state, curriculum) {
       state.curriculum = curriculum;
     },
+    SET_StudentCurriculum(state, studentCurriculum) {
+      state.studentCurriculum = studentCurriculum;
+    },
     SET_Progress(state, progress) {
       state.progress = progress;
     },
@@ -48,6 +54,12 @@ export default new Vuex.Store({
     },
     SET_Maj_Code(state, Maj_Code) {
       state.Maj_Code = Maj_Code;
+    },
+    SET_FinalRecommended(state, FinalRecommended) {
+      state.finalRecommended = FinalRecommended;
+    },
+    SET_FinalSchedule(state, finalSchedule) {
+      state.finalSchedule = finalSchedule;
     }
   },
   actions: {
@@ -119,6 +131,21 @@ export default new Vuex.Store({
           console.log(error);
         });
     },
+    getStudentCurriculum({ commit }) {
+      axios
+        .get(
+          "http://127.0.0.1:8000/api/getStudentCurriculum/" + this.state.CWID
+        )
+        .then(data => {
+          console.log(data.data);
+          console.log("success");
+          let studentCurriculum = data.data;
+          commit("SET_StudentCurriculum", studentCurriculum);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     getProgress({ commit }) {
       axios
         .get("http://127.0.0.1:8000/api/getProgress/" + this.state.CWID)
@@ -127,6 +154,19 @@ export default new Vuex.Store({
           console.log("success");
           let progress = data.data;
           commit("SET_Progress", progress);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getSchedule({ commit }) {
+      axios
+        .get("http://127.0.0.1:8000/api/getSchedule/" + this.state.CWID)
+        .then(data => {
+          console.log(data.data);
+          console.log("success");
+          let finalSchedule = data.data;
+          commit("SET_FinalSchedule", finalSchedule);
         })
         .catch(error => {
           console.log(error);

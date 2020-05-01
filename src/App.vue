@@ -6,7 +6,7 @@
           alt="Vuetify Logo"
           class="shrink mr-2"
           contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+          :src="require('@/assets/VIPRR_Logo_200x200_px.png')"
           transition="scale-transition"
           width="40"
         />
@@ -16,11 +16,16 @@
           class="shrink mt-1 hidden-sm-and-down"
           contain
           min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
+          :src="require('@/assets/viprrLogoSmall.png')"
           width="100"
         />
       </div>
       <v-spacer></v-spacer>
+      <div>
+        <v-btn dark color="rgb(242,43,12)" @click="tutorial">
+          Website Tutorial
+        </v-btn>
+      </div>
     </v-app-bar>
     <v-content>
       <router-view></router-view>
@@ -35,6 +40,11 @@ export default {
   mounted() {},
   computed: {
     ...mapState(["availableCourses"])
+  },
+  methods: {
+    tutorial() {
+      window.open("https://www.nateteacher.com/", "_blank");
+    }
   },
   components: {},
 
