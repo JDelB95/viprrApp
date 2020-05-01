@@ -153,6 +153,7 @@
   </v-container>
 </template>
 <script>
+//import to use functionality
 import { mapState } from "vuex";
 import axios from "axios";
 export default {

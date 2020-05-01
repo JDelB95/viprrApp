@@ -109,6 +109,7 @@
   </div>
 </template>
 <script>
+//import to use functionality
 import { mapState } from "vuex";
 export default {
   name: "Recommendation",

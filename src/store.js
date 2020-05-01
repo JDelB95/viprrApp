@@ -1,4 +1,5 @@
 //This is the central store that holds our state.
+//import to use functionality
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
